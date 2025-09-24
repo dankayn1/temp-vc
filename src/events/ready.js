@@ -11,7 +11,7 @@ module.exports = {
     
     // Set bot status
     client.user.setPresence({
-      activities: [{ name: 'Temporary Voice Channels', type: 2 }],
+      activities: [{ name: '.gg/saucy', type: 2 }],
       status: 'online'
     });
   }
