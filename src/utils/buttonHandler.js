@@ -583,9 +583,7 @@ async function handleVoiceRename(interaction) {
   const { guild, member } = interaction;
 
   try {
-    // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
-    
+
     // Find user's temporary voice channel
     const tempChannel = await TempVoiceChannel.findOne({ 
       guildId: guild.id,
@@ -669,8 +667,6 @@ async function handleVoiceLimit(interaction) {
   const { guild, member } = interaction;
 
   try {
-    // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
     
     // Find user's temporary voice channel
     const tempChannel = await TempVoiceChannel.findOne({ 
