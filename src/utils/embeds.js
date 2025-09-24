@@ -69,10 +69,10 @@ function createSetupButtons() {
 function createInterfaceEmbed() {
   return new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('🎮 TempVoice Control Panel')
-    .setDescription('Welcome to your voice channel control panel! Use the buttons below to customize your temporary voice channel experience.')
+    .setTitle('🎮 Control Panel')
+    .setDescription('Use the buttons below to customize your temporary voice channel experience.')
     .setTimestamp()
-    .setFooter({ text: 'Click the buttons below to manage your voice channel', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Click the buttons below to manage your voice channel', iconURL: 'https://cdn.discordapp.com/icons/1299735411870007326/a_6023136c06907d83468c8bc5b62c13c6.gif' });
 }
 
 // Interface buttons
@@ -191,7 +191,7 @@ function createVoiceControlEmbed(channel, owner) {
       }
     )
     .setTimestamp()
-    .setFooter({ text: 'TempVoice • Channel Controls', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'TempVoice • Channel Controls', iconURL: 'https://cdn.discordapp.com/icons/1299735411870007326/a_6023136c06907d83468c8bc5b62c13c6.gif' });
 }
 
 // Helper function to format time
