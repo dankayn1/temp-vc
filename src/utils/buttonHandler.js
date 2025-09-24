@@ -527,17 +527,22 @@ async function handleVoiceLock(interaction) {
     }
 
     // Get the channel
-    const channel = guild.channels.cache.get(tempChannel.channelId);
+    let channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
-      await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return interaction.editReply({
-        embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
-        )],
-        ephemeral: true
-      });
+      try {
+        channel = await guild.channels.fetch(tempChannel.channelId);
+      } catch {
+        await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
+        return interaction.editReply({
+          embeds: [createErrorEmbed(
+            'Channel Not Found', 
+            'Your temporary voice channel no longer exists.'
+          )],
+          ephemeral: true
+        });
+      }
     }
+
 
     // Check if channel is locked
     const isLocked = !channel.permissionsFor(guild.roles.everyone).has(PermissionFlagsBits.Connect);
@@ -603,17 +608,22 @@ async function handleVoiceRename(interaction) {
     }
 
     // Get the channel
-    const channel = guild.channels.cache.get(tempChannel.channelId);
+    let channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
-      await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return await interaction.editReply({
-        embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
-        )],
-        ephemeral: true
-      });
+      try {
+        channel = await guild.channels.fetch(tempChannel.channelId);
+      } catch {
+        await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
+        return interaction.editReply({
+          embeds: [createErrorEmbed(
+            'Channel Not Found', 
+            'Your temporary voice channel no longer exists.'
+          )],
+          ephemeral: true
+        });
+      }
     }
+
 
     // Create modal
     const modal = new ModalBuilder()
@@ -689,17 +699,22 @@ async function handleVoiceLimit(interaction) {
     }
 
     // Get the channel
-    const channel = guild.channels.cache.get(tempChannel.channelId);
+    let channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
-      await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return await interaction.editReply({
-        embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
-        )],
-        ephemeral: true
-      });
+      try {
+        channel = await guild.channels.fetch(tempChannel.channelId);
+      } catch {
+        await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
+        return interaction.editReply({
+          embeds: [createErrorEmbed(
+            'Channel Not Found', 
+            'Your temporary voice channel no longer exists.'
+          )],
+          ephemeral: true
+        });
+      }
     }
+
 
     // Create modal
     const modal = new ModalBuilder()
@@ -1225,16 +1240,20 @@ async function handleVoiceDelete(interaction) {
     }
 
     // Get the channel
-    const channel = guild.channels.cache.get(tempChannel.channelId);
+    let channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
-      await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return interaction.editReply({
-        embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
-        )],
-        ephemeral: true
-      });
+      try {
+        channel = await guild.channels.fetch(tempChannel.channelId);
+      } catch {
+        await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
+        return interaction.editReply({
+          embeds: [createErrorEmbed(
+            'Channel Not Found', 
+            'Your temporary voice channel no longer exists.'
+          )],
+          ephemeral: true
+        });
+      }
     }
 
     // Store channel name for confirmation message
