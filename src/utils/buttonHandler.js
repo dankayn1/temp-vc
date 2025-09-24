@@ -579,11 +579,13 @@ async function handleVoiceLock(interaction) {
 }
 
 // Rename voice channel
-// Rename voice channel
 async function handleVoiceRename(interaction) {
   const { guild, member } = interaction;
 
   try {
+    // Acknowledge the interaction immediately to prevent timeout
+    await interaction.deferReply({ ephemeral: true });
+    
     // Find user's temporary voice channel
     const tempChannel = await TempVoiceChannel.findOne({ 
       guildId: guild.id,
@@ -591,7 +593,7 @@ async function handleVoiceRename(interaction) {
     });
 
     if (!tempChannel) {
-      return await interaction.reply({
+      return await interaction.editReply({
         embeds: [createErrorEmbed(
           'No Channel Found', 
           'You do not have an active temporary voice channel.'
@@ -604,7 +606,7 @@ async function handleVoiceRename(interaction) {
     const channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return await interaction.reply({
+      return await interaction.editReply({
         embeds: [createErrorEmbed(
           'Channel Not Found', 
           'Your temporary voice channel no longer exists.'
@@ -618,6 +620,7 @@ async function handleVoiceRename(interaction) {
       .setCustomId('rename_channel_modal')
       .setTitle('Rename Voice Channel');
 
+    // Add components to modal
     const nameInput = new TextInputBuilder()
       .setCustomId('channel_name')
       .setLabel('New Channel Name')
@@ -627,9 +630,10 @@ async function handleVoiceRename(interaction) {
       .setRequired(true)
       .setValue(channel.name);
 
-    modal.addComponents(new ActionRowBuilder().addComponents(nameInput));
+    const firstActionRow = new ActionRowBuilder().addComponents(nameInput);
+    modal.addComponents(firstActionRow);
 
-    // ✅ Show the modal directly
+    // Show the modal
     await interaction.showModal(modal);
   } catch (error) {
     console.error('Error showing rename modal:', error);
@@ -643,7 +647,7 @@ async function handleVoiceRename(interaction) {
           )],
           ephemeral: true
         });
-      } else if (!interaction.replied) {
+      } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
             'Rename Failed', 
@@ -655,16 +659,19 @@ async function handleVoiceRename(interaction) {
       }
     } catch (replyError) {
       console.error('Error replying to rename interaction:', replyError);
+      // At this point, we can't do anything more with this interaction
     }
   }
 }
 
 // Set user limit for voice channel
-// Set user limit for voice channel
 async function handleVoiceLimit(interaction) {
   const { guild, member } = interaction;
 
   try {
+    // Acknowledge the interaction immediately to prevent timeout
+    await interaction.deferReply({ ephemeral: true });
+    
     // Find user's temporary voice channel
     const tempChannel = await TempVoiceChannel.findOne({ 
       guildId: guild.id,
@@ -672,7 +679,7 @@ async function handleVoiceLimit(interaction) {
     });
 
     if (!tempChannel) {
-      return await interaction.reply({
+      return await interaction.editReply({
         embeds: [createErrorEmbed(
           'No Channel Found', 
           'You do not have an active temporary voice channel.'
@@ -685,7 +692,7 @@ async function handleVoiceLimit(interaction) {
     const channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return await interaction.reply({
+      return await interaction.editReply({
         embeds: [createErrorEmbed(
           'Channel Not Found', 
           'Your temporary voice channel no longer exists.'
@@ -699,6 +706,7 @@ async function handleVoiceLimit(interaction) {
       .setCustomId('limit_channel_modal')
       .setTitle('Set User Limit');
 
+    // Add components to modal
     const limitInput = new TextInputBuilder()
       .setCustomId('user_limit')
       .setLabel('User Limit (0 = unlimited)')
@@ -708,9 +716,10 @@ async function handleVoiceLimit(interaction) {
       .setRequired(true)
       .setValue(channel.userLimit.toString());
 
-    modal.addComponents(new ActionRowBuilder().addComponents(limitInput));
+    const firstActionRow = new ActionRowBuilder().addComponents(limitInput);
+    modal.addComponents(firstActionRow);
 
-    // ✅ Show the modal directly
+    // Show the modal
     await interaction.showModal(modal);
   } catch (error) {
     console.error('Error showing user limit modal:', error);
@@ -724,7 +733,7 @@ async function handleVoiceLimit(interaction) {
           )],
           ephemeral: true
         });
-      } else if (!interaction.replied) {
+      } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
             'Limit Setting Failed', 
@@ -736,6 +745,7 @@ async function handleVoiceLimit(interaction) {
       }
     } catch (replyError) {
       console.error('Error replying to limit interaction:', replyError);
+      // At this point, we can't do anything more with this interaction
     }
   }
 }
