@@ -90,7 +90,7 @@ async function handleButtonInteraction(interaction) {
             'Unknown Button', 
             `The button with ID "${customId}" is not recognized or implemented.`
           )],
-          ephemeral: true
+          flags: 64
         });
     }
   } catch (error) {
@@ -105,7 +105,7 @@ async function handleButtonInteraction(interaction) {
             'There was an error while processing this interaction!',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -114,7 +114,7 @@ async function handleButtonInteraction(interaction) {
             'There was an error while processing this interaction!',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -136,11 +136,11 @@ async function handleSetupTempVoice(interaction) {
         'Permission Denied', 
         'You need Administrator permissions to set up TempVoice.'
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   try {
     // Verify if setup is still valid
@@ -159,7 +159,7 @@ async function handleSetupTempVoice(interaction) {
             }
           ]
         )],
-        ephemeral: true
+        flags: 64
       });
     } else {
       // If setup is invalid, clean it up
@@ -170,7 +170,7 @@ async function handleSetupTempVoice(interaction) {
             'Invalid Setup Cleaned', 
             `Previous setup was invalid (${setupStatus.reason}). It has been cleaned up. Please run the command again to set up TempVoice.`
           )],
-          ephemeral: true
+          flags: 64
         });
         return;
       }
@@ -291,7 +291,7 @@ async function handleSetupTempVoice(interaction) {
           }
         ]
       )],
-      ephemeral: true
+      flags: 64
     });
   } catch (error) {
     console.error('Error setting up TempVoice:', error);
@@ -301,7 +301,7 @@ async function handleSetupTempVoice(interaction) {
         'An error occurred while setting up TempVoice. Please try again later.',
         error.message
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 }
@@ -317,11 +317,11 @@ async function handleNewCreator(interaction) {
         'Permission Denied', 
         'You need Administrator permissions to create a new creator channel.'
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   try {
     // Verify if setup is still valid
@@ -333,7 +333,7 @@ async function handleNewCreator(interaction) {
           'Setup Required', 
           'TempVoice is not set up in this server. Please run the `/setup` command first.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -346,7 +346,7 @@ async function handleNewCreator(interaction) {
           'Category Not Found', 
           'The TempVoice category could not be found. Please run the `/setup` command again.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -389,7 +389,7 @@ async function handleNewCreator(interaction) {
           }
         ]
       )],
-      ephemeral: true
+      flags: 64
     });
   } catch (error) {
     console.error('Error creating new creator channel:', error);
@@ -399,7 +399,7 @@ async function handleNewCreator(interaction) {
         'An error occurred while creating a new creator channel. Please try again later.',
         error.message
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 }
@@ -415,11 +415,11 @@ async function handleNewInterface(interaction) {
         'Permission Denied', 
         'You need Administrator permissions to create a new interface message.'
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   try {
     // Verify if setup is still valid
@@ -431,7 +431,7 @@ async function handleNewInterface(interaction) {
           'Setup Required', 
           'TempVoice is not set up in this server. Please run the `/setup` command first.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -444,7 +444,7 @@ async function handleNewInterface(interaction) {
           'Channel Not Found', 
           'The interface channel could not be found. Please run the `/setup` command again.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -488,7 +488,7 @@ async function handleNewInterface(interaction) {
           }
         ]
       )],
-      ephemeral: true
+      flags: 64
     });
   } catch (error) {
     console.error('Error creating new interface message:', error);
@@ -498,7 +498,7 @@ async function handleNewInterface(interaction) {
         'An error occurred while creating a new interface message. Please try again later.',
         error.message
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 }
@@ -507,7 +507,7 @@ async function handleNewInterface(interaction) {
 async function handleVoiceLock(interaction) {
   const { guild, member } = interaction;
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   try {
     // Find user's temporary voice channel
@@ -522,7 +522,7 @@ async function handleVoiceLock(interaction) {
           'No Channel Found', 
           'You do not have an active temporary voice channel.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -535,7 +535,7 @@ async function handleVoiceLock(interaction) {
           'Channel Not Found', 
           'Your temporary voice channel no longer exists.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -563,7 +563,7 @@ async function handleVoiceLock(interaction) {
           }
         ]
       )],
-      ephemeral: true
+      flags: 64
     });
   } catch (error) {
     console.error('Error locking/unlocking voice channel:', error);
@@ -573,7 +573,7 @@ async function handleVoiceLock(interaction) {
         'An error occurred while locking/unlocking your voice channel. Please try again later.',
         error.message
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 }
@@ -587,17 +587,24 @@ async function handleVoiceRename(interaction) {
     if (!tempChannel) {
       return await interaction.reply({
         embeds: [createErrorEmbed('No Channel Found', 'You do not have an active temporary voice channel.')],
-        ephemeral: true
+        flags: 64
       });
     }
 
-    const channel = guild.channels.cache.get(tempChannel.channelId);
+    let channel = guild.channels.cache.get(tempChannel.channelId);
     if (!channel) {
-      await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
-      return await interaction.reply({
-        embeds: [createErrorEmbed('Channel Not Found', 'Your temporary voice channel no longer exists.')],
-        ephemeral: true
-      });
+      try {
+        channel = await guild.channels.fetch(tempChannel.channelId);
+      } catch {
+        await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
+        return await interaction.reply({
+          embeds: [createErrorEmbed(
+            'Channel Not Found',
+            'Your temporary voice channel no longer exists.'
+          )],
+          flags: 64
+        });
+      }
     }
 
     const modal = new ModalBuilder()
@@ -639,7 +646,7 @@ async function handleVoiceLimit(interaction) {
           'No Channel Found', 
           'You do not have an active temporary voice channel.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -652,7 +659,7 @@ async function handleVoiceLimit(interaction) {
           'Channel Not Found', 
           'Your temporary voice channel no longer exists.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -695,7 +702,7 @@ async function handleVoiceWaiting(interaction) {
         }
       ]
     )],
-    ephemeral: true
+    flags: 64
   });
 }
 
@@ -713,7 +720,7 @@ async function handleVoiceThread(interaction) {
         }
       ]
     )],
-    ephemeral: true
+    flags: 64
   });
 }
 
@@ -721,7 +728,7 @@ async function handleVoiceThread(interaction) {
 async function handleVoiceTrust(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'trust');
@@ -730,7 +737,7 @@ async function handleVoiceTrust(interaction) {
       await interaction.editReply({
         content: 'Select a user to trust:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       // Just show the error message without manual input option
@@ -739,7 +746,7 @@ async function handleVoiceTrust(interaction) {
           'Trust Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -753,7 +760,7 @@ async function handleVoiceTrust(interaction) {
             'An error occurred while trying to trust a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -762,7 +769,7 @@ async function handleVoiceTrust(interaction) {
             'An error occurred while trying to trust a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -776,7 +783,7 @@ async function handleVoiceTrust(interaction) {
 async function handleVoiceInvite(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'invite');
@@ -785,7 +792,7 @@ async function handleVoiceInvite(interaction) {
       await interaction.editReply({
         content: 'Select a user to invite:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -793,7 +800,7 @@ async function handleVoiceInvite(interaction) {
           'Invite Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -807,7 +814,7 @@ async function handleVoiceInvite(interaction) {
             'An error occurred while trying to invite a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -816,7 +823,7 @@ async function handleVoiceInvite(interaction) {
             'An error occurred while trying to invite a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -830,7 +837,7 @@ async function handleVoiceInvite(interaction) {
 async function handleVoiceKick(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'kick');
@@ -839,7 +846,7 @@ async function handleVoiceKick(interaction) {
       await interaction.editReply({
         content: 'Select a user to kick:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -847,7 +854,7 @@ async function handleVoiceKick(interaction) {
           'Kick Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -861,7 +868,7 @@ async function handleVoiceKick(interaction) {
             'An error occurred while trying to kick a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -870,7 +877,7 @@ async function handleVoiceKick(interaction) {
             'An error occurred while trying to kick a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -894,7 +901,7 @@ async function handleVoiceRegion(interaction) {
         }
       ]
     )],
-    ephemeral: true
+    flags: 64
   });
 }
 
@@ -902,7 +909,7 @@ async function handleVoiceRegion(interaction) {
 async function handleVoiceBlock(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'block');
@@ -911,7 +918,7 @@ async function handleVoiceBlock(interaction) {
       await interaction.editReply({
         content: 'Select a user to block:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -919,7 +926,7 @@ async function handleVoiceBlock(interaction) {
           'Block Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -933,7 +940,7 @@ async function handleVoiceBlock(interaction) {
             'An error occurred while trying to block a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -942,7 +949,7 @@ async function handleVoiceBlock(interaction) {
             'An error occurred while trying to block a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -956,7 +963,7 @@ async function handleVoiceBlock(interaction) {
 async function handleVoiceUnblock(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'unblock');
@@ -965,7 +972,7 @@ async function handleVoiceUnblock(interaction) {
       await interaction.editReply({
         content: 'Select a user to unblock:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -973,7 +980,7 @@ async function handleVoiceUnblock(interaction) {
           'Unblock Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -987,7 +994,7 @@ async function handleVoiceUnblock(interaction) {
             'An error occurred while trying to unblock a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -996,7 +1003,7 @@ async function handleVoiceUnblock(interaction) {
             'An error occurred while trying to unblock a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -1009,7 +1016,7 @@ async function handleVoiceUnblock(interaction) {
 // Claim ownership of an abandoned voice channel
 async function handleVoiceClaim(interaction) {
   try {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     const result = await claimOwnership(interaction);
     
     if (result.success) {
@@ -1025,7 +1032,7 @@ async function handleVoiceClaim(interaction) {
             }
           ]
         )],
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -1033,7 +1040,7 @@ async function handleVoiceClaim(interaction) {
           'Claim Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -1045,7 +1052,7 @@ async function handleVoiceClaim(interaction) {
           'An error occurred while claiming ownership. Please try again later.',
           error.message
         )],
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.reply({
@@ -1054,7 +1061,7 @@ async function handleVoiceClaim(interaction) {
           'An error occurred while claiming ownership. Please try again later.',
           error.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   }
@@ -1064,7 +1071,7 @@ async function handleVoiceClaim(interaction) {
 async function handleVoiceTransfer(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'transfer');
@@ -1073,7 +1080,7 @@ async function handleVoiceTransfer(interaction) {
       await interaction.editReply({
         content: 'Select a user to transfer ownership to:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -1081,7 +1088,7 @@ async function handleVoiceTransfer(interaction) {
           'Transfer Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -1095,7 +1102,7 @@ async function handleVoiceTransfer(interaction) {
             'An error occurred while trying to transfer ownership. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -1104,7 +1111,7 @@ async function handleVoiceTransfer(interaction) {
             'An error occurred while trying to transfer ownership. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
@@ -1128,7 +1135,7 @@ async function handleVoicePermission(interaction) {
         }
       ]
     )],
-    ephemeral: true
+    flags: 64
   });
 }
 
@@ -1136,7 +1143,7 @@ async function handleVoicePermission(interaction) {
 async function handleVoiceDelete(interaction) {
   const { guild, member } = interaction;
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: 64 });
 
   try {
     // Find user's temporary voice channel
@@ -1151,7 +1158,7 @@ async function handleVoiceDelete(interaction) {
           'No Channel Found', 
           'You do not have an active temporary voice channel.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -1164,7 +1171,7 @@ async function handleVoiceDelete(interaction) {
           'Channel Not Found', 
           'Your temporary voice channel no longer exists.'
         )],
-        ephemeral: true
+        flags: 64
       });
     }
 
@@ -1187,7 +1194,7 @@ async function handleVoiceDelete(interaction) {
           }
         ]
       )],
-      ephemeral: true
+      flags: 64
     });
   } catch (error) {
     console.error('Error deleting voice channel:', error);
@@ -1197,7 +1204,7 @@ async function handleVoiceDelete(interaction) {
         'An error occurred while deleting your voice channel. Please try again later.',
         error.message
       )],
-      ephemeral: true
+      flags: 64
     });
   }
 }
@@ -1206,7 +1213,7 @@ async function handleVoiceDelete(interaction) {
 async function handleVoiceUntrust(interaction) {
   try {
     // Acknowledge the interaction immediately to prevent timeout
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     
     const { createUserSelectionDropdown } = require('./permissionHandler');
     const result = await createUserSelectionDropdown(interaction, 'untrust');
@@ -1215,7 +1222,7 @@ async function handleVoiceUntrust(interaction) {
       await interaction.editReply({
         content: 'Select a user to untrust:',
         components: result.components,
-        ephemeral: true
+        flags: 64
       });
     } else {
       await interaction.editReply({
@@ -1223,7 +1230,7 @@ async function handleVoiceUntrust(interaction) {
           'Untrust Action Failed', 
           result.message
         )],
-        ephemeral: true
+        flags: 64
       });
     }
   } catch (error) {
@@ -1237,7 +1244,7 @@ async function handleVoiceUntrust(interaction) {
             'An error occurred while trying to untrust a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       } else {
         await interaction.reply({
@@ -1246,7 +1253,7 @@ async function handleVoiceUntrust(interaction) {
             'An error occurred while trying to untrust a user. Please try again later.',
             error.message
           )],
-          ephemeral: true
+          flags: 64
         });
       }
     } catch (replyError) {
